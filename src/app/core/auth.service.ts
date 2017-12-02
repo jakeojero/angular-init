@@ -5,6 +5,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap'
+import { NgForm } from '@angular/forms';
+import { AlertService } from '../alert/alert.service';
 
 interface User {
   uid: string;
@@ -13,12 +15,17 @@ interface User {
   displayName?: string;
 }
 
+interface XenosCredentials {
+  email: string;
+  password: string;
+}
+
 @Injectable()
 export class AuthService {
 
   user: Observable<User>;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router) { 
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router, private alertService: AlertService) { 
 
       // Get Auth data, then get firestore document || null
       this.user = this.afAuth.authState.switchMap(user => {
@@ -31,6 +38,25 @@ export class AuthService {
 
   }
 
+  register(form: NgForm) {
+    
+    let creds : XenosCredentials = {
+      email: form.control.get('email').value,
+      password: form.control.get('password').value
+    }
+
+    this.createUser(creds);
+  }
+
+  login(form: NgForm) {
+    let creds : XenosCredentials = {
+      email: form.control.get('email').value,
+      password: form.control.get('password').value
+    }
+
+    this.loginUser(creds);
+  }
+
   googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider();
     return this.oAuthLogin(provider);
@@ -39,7 +65,7 @@ export class AuthService {
   signOut() {
     this.afAuth.auth.signOut().then(
       () => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       }
     )
   }
@@ -59,13 +85,42 @@ export class AuthService {
     const data: User = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
-      photoUrl: user.photoUrl
+      displayName: user.displayName
     }
 
     return userRef.set(data);
   }
 
+  private createUser(creds : XenosCredentials) {
 
+    this.afAuth.auth.createUserWithEmailAndPassword(creds.email, creds.password)
+      .then(
+        (credential) => {
+          this.updateUserData(credential);
+          this.alertService.info('Successfully created your account.', 5000, true);
+          this.router.navigate(['dashboard']);
+        }
+      ).catch(
+        (error) => {
+          this.alertService.error(error.message, 5000);
+        }
+      )
+  }
+
+  private loginUser(creds: XenosCredentials) {
+    this.afAuth.auth.signInWithEmailAndPassword(creds.email, creds.password)
+      .then(
+        (resp) => {
+          this.alertService.info('Successfully Logged In', 5000, true);
+          this.router.navigate(['dashboard']);
+        }
+      )
+      .catch(
+        (error) => {
+          this.alertService.error(error.message, 5000);
+        }
+      )
+    
+  }
 
 }

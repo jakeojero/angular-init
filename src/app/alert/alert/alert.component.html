@@ -1,0 +1,7 @@
+<div *ngFor="let alert of alerts">
+  <td-message class="bring-front" 
+              label="{{alert.label}}"
+              sublabel="{{alert.message}}"
+              color="{{ alert.type === 2 ? 'warn' : alert.type === 1 ? 'primary' : alert.type === 0 ? 'accent' : ''}}"
+              icon="{{ alert.type === 2 ? 'error' : alert.type === 1 ? 'warning' : alert.type === 0 ? 'info' : ''}}"></td-message>
+</div>

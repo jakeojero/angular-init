@@ -1,3 +1,51 @@
-<p>
-  login works!
-</p>
+<div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
+    <div flex-gt-sm="20"></div>
+    <div flex-gt-sm="60">
+        <mat-card>
+            <mat-card-title layout="row" layout-align="start center"><mat-icon class="mat-icon-logo" svgIcon="assets:teradata"></mat-icon> <span class="md-title">Login</span></mat-card-title>
+            <mat-card-subtitle>Sign In with Your Credentials or Use a third party</mat-card-subtitle>
+            <mat-divider></mat-divider>
+            <mat-card-content class="push-bottom-none">
+              <form #loginForm="ngForm">
+                <div layout="row">
+                  <mat-form-field flex>
+                    <input matInput #userElement #userControl="ngModel" placeholder="email" type="text" name="email" [(ngModel)]="email" required>
+                    <mat-hint align="start">
+                      <span [hidden]="!userControl.errors?.required || userControl.pristine" class="tc-red-600">Required</span>
+                    </mat-hint>
+                    <mat-hint align="end">{{userElement.value.length}} / 30</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div layout="row" class="push-top-sm">
+                  <mat-form-field flex>
+                    <input matInput #passElement #passControl="ngModel" placeholder="Password" type="password" name="password" [(ngModel)]="password" required>
+                    <mat-hint align="start">
+                      <span [hidden]="!passControl.errors?.required || passControl.pristine" class="tc-red-600">Required</span>
+                    </mat-hint>
+                    <mat-hint align="end">Something hard to guess</mat-hint>
+                  </mat-form-field>
+                </div>
+              </form>
+              <div id="invalid-auth-msg" *ngIf="invalidError" class="tc-red-600 text-center" flex>The username or password is incorrect. Please try again.</div>
+            </mat-card-content>
+            <mat-divider></mat-divider>
+            <mat-card-actions>
+                <div layout="row">
+                    <button flex="40" flex-xs="100" mat-raised-button color="accent" [disabled]="!loginForm.form.valid" (click)="login(loginForm)" class="text-upper">Sign In</button>
+                </div>
+            </mat-card-actions>
+          </mat-card>
+
+          <mat-card>
+              <mat-card-title layout="row" layout-align="start center"><mat-icon class="mat-icon-logo">google</mat-icon> <span class="md-title">Google Login</span></mat-card-title>
+              <mat-card-subtitle>Use Google to authenticate</mat-card-subtitle>
+              <mat-divider></mat-divider>
+              <mat-card-content class="push-bottom-none">
+                  <div layout="row">
+                      <button flex="40" flex-xs="100" mat-raised-button color="accent" (click)="googleLogin()" class="text-upper">Google Login</button>
+                  </div>
+              </mat-card-content>
+          </mat-card>
+    </div>
+
+</div>

@@ -1,3 +1,67 @@
-<p>
-  dashboard works!
-</p>
+        
+  <div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
+  <div flex-gt-sm="60">
+      <mat-card>
+      <mat-card-title>Products Sales</mat-card-title>
+      <mat-card-subtitle>usage stats for our products</mat-card-subtitle>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+          card content
+      </mat-card-content>
+      </mat-card>
+      <mat-card tdMediaToggle="gt-xs" [mediaClasses]="['push-top']">
+      <mat-card-title>Customer Activity</mat-card-title>
+      <mat-card-subtitle>Recent activity from select members</mat-card-subtitle>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+          card content
+          <router-outlet></router-outlet>
+      </mat-card-content>
+      </mat-card>
+  </div>
+  <div flex-gt-sm="40">
+      <mat-card>
+      <mat-card-title>Alerts</mat-card-title>
+      <mat-card-subtitle>Items requiring attention</mat-card-subtitle>
+      <mat-divider></mat-divider>
+      <mat-nav-list>
+          <ng-template let-item let-last="last" let-index="index" ngFor [ngForOf]="[0,1,2,3,4]">
+          <a mat-list-item>
+              <mat-icon matListAvatar color="accent">warning</mat-icon>
+              <h3 matLine>Alert {{index}}</h3>
+              <p matLine>alert description</p>
+          </a>
+          <mat-divider md-inset *ngIf="!last"></mat-divider>
+          </ng-template>
+      </mat-nav-list>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+          <a mat-button color="accent" class="text-upper" [routerLink]="['/logs']">
+          <span>View More</span>
+          </a>
+      </mat-card-actions>
+      </mat-card>
+      <mat-card tdMediaToggle="gt-xs" [mediaClasses]="['push-top']">
+      <mat-card-title>Favorites</mat-card-title>
+      <mat-card-subtitle>Your favorite items</mat-card-subtitle>
+      <mat-divider></mat-divider>
+      <mat-nav-list dense>
+          <ng-template let-item let-last="last" let-index="index" ngFor [ngForOf]="[0,1,2,3,4]">
+          <a mat-list-item>
+              <mat-icon matListAvatar class="tc-pink-600">favorite</mat-icon>
+              <h3 matLine>Favorite {{index}}</h3>
+              <h4 matLine>secondary heading text</h4>
+              <p matLine>favorite description</p>
+          </a>
+          <mat-divider md-inset *ngIf="!last"></mat-divider>
+          </ng-template>
+      </mat-nav-list>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+          <a mat-button color="accent" class="text-upper" [routerLink]="['/product']">
+          <span>View More</span>
+          </a>
+      </mat-card-actions>
+      </mat-card>
+  </div>
+  </div>

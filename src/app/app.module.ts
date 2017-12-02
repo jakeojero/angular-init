@@ -1,8 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
+import { NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 
 import { AppComponent } from './app.component';
 
@@ -11,8 +8,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { Http, HttpModule, JsonpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { environment } from '../environments/environment';
+import { AlertModule } from './alert/alert.module';
 
 
 
@@ -23,14 +23,17 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
     HttpModule,
+    JsonpModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     MaterialModule,
     CoreModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AlertModule
   ],
   providers: [],
+  schemas: [NO_ERRORS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

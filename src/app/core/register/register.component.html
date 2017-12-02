@@ -1,0 +1,41 @@
+<div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
+    <div flex-gt-sm="20"></div>
+    <div flex-gt-sm="60">
+        <mat-card>
+            <mat-card-title layout="row" layout-align="start center"><mat-icon class="mat-icon-logo">assignment</mat-icon> <span class="md-title">Register</span></mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+            <mat-divider></mat-divider>
+            <mat-card-content class="push-bottom-none">
+              <form #loginForm="ngForm">
+                <div layout="row">
+                  <mat-form-field flex>
+                    <input matInput #userElement #userControl="ngModel" placeholder="Email" type="text" name="email" [(ngModel)]="email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+                    <mat-hint align="start">
+                      <span [hidden]="!userControl.errors?.required || userControl.pristine" class="tc-red-600">Required</span>
+                      <span [hidden]="!userControl.errors?.pattern" class="tc-red-600">Invalid Email</span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+                <div layout="row" class="push-top-sm">
+                  <mat-form-field flex>
+                    <input matInput #passElement #passControl="ngModel" placeholder="Password" type="password" name="password" minlength="6" [(ngModel)]="password" required>
+                    <mat-hint align="start">
+                      <span [hidden]="!passControl.errors?.required || passControl.pristine" class="tc-red-600">Required</span>
+                      <span [hidden]="!passControl.errors?.minlength" class="tc-red-600">Password must be greater than 6 characters</span>
+                    </mat-hint>
+                    <mat-hint align="end">{{passElement.value.length}} / 6</mat-hint>
+                  </mat-form-field>
+                </div>
+              </form>
+              <div id="invalid-auth-msg" *ngIf="invalidError" class="tc-red-600 text-center" flex>The username or password is incorrect. Please try again.</div>
+            </mat-card-content>
+            <mat-divider></mat-divider>
+            <mat-card-actions>
+                <div layout="row" layout-xs="column">
+                    <button flex mat-raised-button color="accent" [disabled]="!loginForm.form.valid" (click)="register(loginForm)" class="text-upper">Register</button>
+                </div>
+            </mat-card-actions>
+          </mat-card>
+    </div>
+
+</div>

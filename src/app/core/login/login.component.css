@@ -1,0 +1,7 @@
+@media only screen and (max-width: 600px) {
+    .mat-raised-button {
+        margin-right: 0px !important;
+        margin-left:  0px !important;
+        margin-top: 5px !important;
+    }
+}

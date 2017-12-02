@@ -1,11 +1,41 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<mat-toolbar color="accent">
-  <mat-toolbar-row>
-    <span>Xenos</span>
-    <span class="spacer"></span>
-    <mat-icon class="icon">favorite</mat-icon>
-    <mat-icon class="icon">delete</mat-icon>
-  </mat-toolbar-row>
-</mat-toolbar>
+<td-layout>
+        
+        <td-navigation-drawer flex [sidenavTitle]="name" logo="assets:covalent" name="{{ (user | async)?.uid ? (user | async)?.displayName : 'Welcome'}}" email="{{ (user | async)?.uid ? (user | async)?.email : 'To get started register or login'}}">
+            <mat-nav-list>
+                <div *ngIf="!(user | async)?.uid; else signedIn">
+                    <a  mat-list-item [tdLayoutClose]="true" [routerLink]="['/login']"><mat-icon>lock open</mat-icon>Login</a>
+                    <a  mat-list-item [tdLayoutClose]="true" [routerLink]="['/register']"><mat-icon>face</mat-icon>Register</a>
+                </div>
+                
 
-<router-outlet></router-outlet>
+                <ng-template #signedIn>
+                    <a  mat-list-item [tdLayoutClose]="true" [routerLink]="['/dashboard']"><mat-icon>dashboard</mat-icon>Dashboard</a>
+                    <a  mat-list-item [tdLayoutClose]="true" (click)="logout()"><mat-icon>lock</mat-icon>Logout</a>
+                </ng-template>
+                
+            </mat-nav-list>
+        </td-navigation-drawer>
+
+    
+        <td-layout-nav logo="assets:covalent" [toolbarTitle]="name" navigationRoute="/">
+            <button mat-icon-button td-menu-button tdLayoutToggle>
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <div layout-gt-sm="row" layout-padding>
+                <div flex-gt-sm="60" flex-offset-gt-sm="20">
+                    <alert></alert>
+                </div>
+            </div>
+        
+            <router-outlet></router-outlet>
+            
+            <td-layout-footer>
+                <div layout="row" layout-align="start center">
+                    <span class="md-caption">Made with <mat-icon class="text-md">favorite</mat-icon> using <a href="http://getcovalent.com" class="text-nodecoration tc-blue-700">Covalent</a>, built on Angular v5 + Angular Material.</span>
+                </div>
+            </td-layout-footer>
+        </td-layout-nav>
+
+</td-layout>
+
